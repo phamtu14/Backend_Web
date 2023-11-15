@@ -45,7 +45,6 @@ const createUser = async (reqBody) => {
 const createEmployee = async (reqBody) => {
   try {
     const {name, email, password, role} = reqBody
-    console.log(reqBody)
     const salt = await bcrypt.genSalt(10)
     const hashed = await bcrypt.hash(password, salt)
     const createdUser = await employeeModel.create({
