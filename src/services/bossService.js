@@ -15,7 +15,6 @@ const deleteEmployee = async (id) => {
 try { 
   const ObjectId = new mongoose.Types.ObjectId(id)
   const employee = await employeeModel.findById(ObjectId)
-  console.log(employee.role)
   if(employee.role === 'gather_manager' || employee.role === 'tran_manager') {
     const deleted = employee
     await employeeModel.deleteOne(ObjectId)
@@ -23,7 +22,6 @@ try {
   } else {
     return 'this is not a manager'
   }
-  
 } catch (error) {
   throw new ApiError(StatusCodes.BAD_REQUEST, error.message)
 }
@@ -56,5 +54,5 @@ export const bossService = {
   getAllEmployees,
   deleteEmployee,
   createPlace,
-  getAllPlaces,
+  getAllPlaces, 
 }
