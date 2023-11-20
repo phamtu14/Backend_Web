@@ -40,6 +40,7 @@ const createPlace = async (req, res, next) => {
     } else {
       const createdPlace = await bossService.createPlace(req.body)
       res.status(StatusCodes.CREATED).json(createdPlace)
+      next()
     }
   }catch (error) {
     next(error)
