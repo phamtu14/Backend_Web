@@ -3,6 +3,8 @@ import { userController } from '../../controllers/userController.js'
 
 const Router = express.Router()
 
-Router.get('/order', userController.getAllOrders)
+Router.get('/send', userController.getAllSendOrders)
+
+Router.get('/receive', userController.getAllReceiveOrders)
 
 export const userRoutes = Router

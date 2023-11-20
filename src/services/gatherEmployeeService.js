@@ -6,7 +6,7 @@ import { userModel } from '../models/userModel.js'
 const createOrder = async (reqBody) => {
   try {
   let { name, status, dateSend, senderEmail, receiverEmail, } = reqBody
-  status = 'sending'
+  status = 'confirm'
   dateSend = new Date()
   const isSender = await userModel.findOne({ email: senderEmail })
   const isReceiver = await userModel.findOne({ email: receiverEmail })

@@ -24,7 +24,7 @@ app.use(errorHandlingMiddleware)
 mongoose.connect(env.MONGODB_URI)
 .then( () => {
   app.listen( env.APP_PORT, () => {
-    console.log(`Server is listening on port http://localhost:${env.APP_PORT}`);
+    console.log(`Server is running on http://localhost:${env.APP_PORT}`);
   })
 
   console.log('Connected to MongoDb')
