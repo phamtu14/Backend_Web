@@ -7,4 +7,5 @@ const Router = express.Router()
 Router.post('/register', authController.createEmployee)
 
 Router.delete('/manage/:id',gatherManagerController.deleteEmployee )
+
 export const gatherManagerRoutes = Router
