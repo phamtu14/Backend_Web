@@ -1,23 +1,26 @@
 import jwt from 'jsonwebtoken';
-import { env } from '../config/environment';
+import { env } from '../config/environment.js';
 import StatusCodes from 'http-status-codes'
-import ApiError from '../utils/ApiError';
+import ApiError from '../utils/ApiError.js';
 
-export const jwtMiddleware = () => {
   //verify token
-  const verifyToken = (req, res, next) => {
-    const token = req.header.token
+const verifyToken = (req, res, next) => {
+    const token = req.headers.token
     if(token) {
-      const accessToken = token.split(" ")[1]
-      jwt.verify(accessToken, env.JWT_ACCESS_KEY, (err, user) => {
+      // const accessToken = token.split(" ")[1]
+      jwt.verify(token, env.JWT_ACCESS_KEY, (err, decodedToken) => {
         if(err) {
           throw new ApiError(StatusCodes.FORBIDDEN, 'Token is not invalid')
+        } else {
+          req.headers.role = decodedToken.role
+          next()
         }
-        req.user = user
-        next()
       })
     } else {
       throw new ApiError(StatusCodes.UNAUTHORIZED, 'You are not authenticated')
     }
   }
+
+export const jwtMiddleware = {
+  verifyToken
 }

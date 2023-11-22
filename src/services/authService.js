@@ -3,7 +3,7 @@ import { employeeModel } from '../models/employeeModel.js'
 import ApiError from '../utils/ApiError.js'
 import {StatusCodes} from 'http-status-codes'
 import bcrypt from 'bcrypt'
-import { token } from '../utils/token.js'
+
 
 
 
@@ -64,7 +64,6 @@ const login = async (reqBody) => {
   try {
     const employee = await employeeModel.findOne({email: reqBody.email})
     const user = await userModel.findOne({email: reqBody.email})
-
     if(!user && !employee) {
       throw new ApiError(StatusCodes.NOT_FOUND, "Wrong email address")
     }
@@ -74,10 +73,8 @@ const login = async (reqBody) => {
         throw new ApiError(StatusCodes.NOT_FOUND, "Wrong password")
       }
       if(user && validUserPassword) {
-        const accessToken = token.generateRefreshToken(user)
-        const refreshToken = token.generateRefreshToken(user)
         const {password, ...others} = user._doc
-        return { ...others, accessToken, refreshToken}
+        return others
       }  
     }
 
@@ -87,10 +84,8 @@ const login = async (reqBody) => {
         throw new ApiError(StatusCodes.NOT_FOUND, "Wrong password")
       }
       if(employee && validEmployeePassword) {
-        const accessToken = token.generateRefreshToken(employee)
-        const refreshToken = token.generateRefreshToken(employee)
         const {password, ...others} = employee._doc
-        return { ...others, accessToken, refreshToken}
+        return others
       } 
     }
     

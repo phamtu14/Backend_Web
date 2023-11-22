@@ -2,6 +2,7 @@ import express from 'express'
 import { StatusCodes } from 'http-status-codes'
 import { authController } from '../../controllers/authController.js'
 
+
 const Router = express.Router()
 
 Router.get('/', (req, res) => {

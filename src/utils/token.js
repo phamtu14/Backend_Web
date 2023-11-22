@@ -3,7 +3,7 @@ import { env } from '../config/environment.js'
 
 const generateAccessToken = (user) => {
   return jwt.sign({
-    id: user.id,
+    id: user._id,
     role: user.role
   },
   env.JWT_ACCESS_KEY,
@@ -13,7 +13,7 @@ const generateAccessToken = (user) => {
 
 const generateRefreshToken = (user) => {
   return jwt.sign({
-    id: user.id,
+    id: user._id,
     role: user.role
   },
   env.JWT_REFRESH_KEY,

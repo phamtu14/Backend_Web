@@ -1,11 +1,11 @@
 import { StatusCodes } from 'http-status-codes'
-import ApiError from '../utils/ApiError'
+import ApiError from '../utils/ApiError.js'
 
 export const roleMiddleware = (role) => {
   return (req, res, next) => {
+    console.log(req.headers.role)
     try {
-      if(req.body.role === role) {
-        res.status(StatusCodes.OK)
+      if(req.headers.role === role) {
         next()
       }
     } catch (error) {

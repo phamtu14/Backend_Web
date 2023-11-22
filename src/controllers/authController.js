@@ -1,6 +1,7 @@
 import { StatusCodes } from 'http-status-codes'
 import { authService } from '../services/authService.js'
 import ApiError from '../utils/ApiError.js'
+import { token } from '../utils/token.js'
 
 //create a new user
 const createUser = async (req, res, next) => {
@@ -50,7 +51,15 @@ const login = async (req, res, next) => {
       throw new ApiError(300, 'Invalid email')
     } else {
       const validUser = await authService.login(req.body)
-      res.status(StatusCodes.OK).json(validUser)
+      console.log(validUser)
+      const accessToken = token.generateAccessToken(validUser)
+      const refreshToken = token.generateRefreshToken(validUser)
+      res.status(StatusCodes.OK).json({
+        validUser,
+        accessToken, 
+        refreshToken
+      })
+      
     }
 
   } catch (error) { next(error) }
