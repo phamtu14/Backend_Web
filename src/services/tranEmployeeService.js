@@ -28,7 +28,26 @@ const createOrder = async (reqBody) => {
   }
 }
 
+const updateOrder = async (id, status) => {
+  try {
+    let order = await orderModel.findOne({ _id: id })
+    if (!order) {
+      throw new ApiError(StatusCodes.NOT_FOUND, 'Invalid order')
+    } else {
+      let newOrder = await orderModel.findOneAndUpdate(
+        { _id: id },
+        { $set: { status: status } },
+        { new: true } 
+      )
+      return newOrder
+    }
+  } catch (error) {
+    throw error
+  }
+}
 
-export const gatherEmployeeService = {
-  createOrder
+
+export const tranEmployeeService = {
+  createOrder,
+  updateOrder
 }

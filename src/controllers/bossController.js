@@ -19,7 +19,6 @@ const deleteEmployee = async (req, res, next) => {
   try {
     const id = req.params.id
     const result = await bossService.deleteEmployee(id)
-    console.log(result)
     if (typeof result === 'object') {
       res.status(StatusCodes.OK).json( result )
     } else {
