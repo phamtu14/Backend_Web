@@ -51,6 +51,7 @@ const login = async (req, res, next) => {
       throw new ApiError(300, 'Invalid email')
     } else {
       const validUser = await authService.login(req.body)
+
       const accessToken = token.generateAccessToken(validUser)
       const refreshToken = token.generateRefreshToken(validUser)
       res.status(StatusCodes.OK).json({

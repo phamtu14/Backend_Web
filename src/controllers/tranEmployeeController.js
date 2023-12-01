@@ -27,7 +27,7 @@ const updateOrder = async (req, res, next) => {
         throw new ApiError( StatusCodes.NOT_FOUND, 'Missing id or status')
       } else {
         const result = await tranEmployeeService.updateOrder(id, status)
-        res.status( StatusCodes.OK).json(result)
+        res.status( StatusCodes.OK ).json(result)
         next()
       } 
     }
