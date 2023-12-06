@@ -5,10 +5,12 @@ import { roleMiddleware } from '../../middlewares/roleMiddleware.js'
 
 const Router = express.Router()
 
-Router.use( jwtMiddleware.verifyToken )
+// Router.use( jwtMiddleware.verifyToken )
+//, roleMiddleware('tran_employee')
+//, roleMiddleware('tran_employee')
 
-Router.post('/order', roleMiddleware('tran_employee'), tranEmployeeController.createOrder)
+Router.post('/order', tranEmployeeController.createOrder)
 
-Router.patch('/update/:id', roleMiddleware('tran_employee'), tranEmployeeController.updateOrder)
+Router.patch('/update/:id', tranEmployeeController.updateOrder)
 
 export const tranEmployeeRoutes = Router

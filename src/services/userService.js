@@ -1,6 +1,6 @@
 import ApiError from '../utils/ApiError.js'
 import {StatusCodes} from 'http-status-codes'
-import { orderModel } from '../models/orderModel.js'
+import { orderTranModel } from '../models/orderTranModel.js'
 import { userModel } from '../models/userModel.js'
 import mongoose from 'mongoose'
 
@@ -13,7 +13,7 @@ const getAllSendOrders = async (id) => {
     if (!isUser) {
       return 'this is not a user'
     } else {
-    const allOrders = await orderModel.find()
+    const allOrders = await orderTranModel.find()
     const userOrders = []
     for( let i = 0; i < allOrders.length; i ++) {
       if( allOrders[i].senderEmail === isUser.email ) {
@@ -38,7 +38,7 @@ const getAllReceiveOrders = async (id) => {
   if (!isUser) {
     return 'this is not a user'
   } else {
-  const allOrders = await orderModel.find()
+  const allOrders = await orderTranModel.find()
   const userOrders = []
   for( let i = 0; i < allOrders.length; i ++) {
     if( allOrders[i].receiverEmail === isUser.email && allOrders[i].status === 'received' ) {

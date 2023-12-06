@@ -2,10 +2,12 @@ import ApiError from '../utils/ApiError.js'
 import {StatusCodes} from 'http-status-codes'
 import { tranEmployeeService } from '../services/tranEmployeeService.js'
 
+
+//nhận đơn hàng của người gửi và trả lại thông tin đơn hàng
 const createOrder = async (req, res, next) => {
   try {
-    const { name, senderEmail, receiverEmail, } = req.body
-    if( !name || !senderEmail || !receiverEmail) {
+    const { name, senderEmail, receiverEmail, tranPlaceId} = req.body
+    if( !name || !senderEmail || !receiverEmail || tranPlaceId) {
       throw new ApiError(StatusCodes.NO_CONTENT, 'Invalid input')
     } else {
       const createdOrder = await gatherEmployeeService.createOrder(req.body)
@@ -16,6 +18,7 @@ const createOrder = async (req, res, next) => {
   }
 }
 
+//trả đơn hàng cho người nhận
 const updateOrder = async (req, res, next) => { 
   try {
     if (!req.params.id) {
@@ -36,7 +39,41 @@ const updateOrder = async (req, res, next) => {
   }
 }
 
+// lấy tất cả đơn hàng sẽ gửi tới điểm tập kết
+const allOrdersToGather = async (req, res, next) => {
+  try {
+    const id = req.params.id
+    const allOrders = await tranEmployeeService.allOrdersToGather(id)
+    res.status(StatusCodes.OK).json(allOrders)
+    next()
+  } catch (error) {
+    next( error )
+  } 
+}
+
+
+// gửi hàng cho bên tập kết 
+const toGatherPlace =  async (req, res, next) => {
+  try {
+    const allOrders = req.body
+    if(allOrders.length <0) {
+      throw new Error('Need at least one order')
+    } else {
+      const result = await tranEmployeeService.toGatherPlace(allOrders)
+      res.status(StatusCodes.OK).json(result)
+      next()
+    }
+  } catch (error) {
+    next( error )
+  }
+}
+
+
+//ghi nhận đơn hàng từ điểm tập kết về
+
 export const tranEmployeeController = {
   createOrder,
-  updateOrder
+  updateOrder,
+  toGatherPlace,
+  allOrdersToGather
 }
