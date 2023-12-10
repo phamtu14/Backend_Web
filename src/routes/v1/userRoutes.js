@@ -5,10 +5,12 @@ import { roleMiddleware } from '../../middlewares/roleMiddleware.js'
 
 const Router = express.Router()
 
-Router.use( jwtMiddleware.verifyToken )
+// Router.use( jwtMiddleware.verifyToken )
+// , roleMiddleware('user')
+// , roleMiddleware('user')
 
-Router.get('/send', roleMiddleware('user'), userController.getAllSendOrders)
+Router.get('/send', userController.getAllSendOrders)
 
-Router.get('/receive', roleMiddleware('user'), userController.getAllReceiveOrders)
+Router.get('/receive', userController.getAllReceiveOrders)
 
 export const userRoutes = Router

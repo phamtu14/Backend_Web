@@ -1,5 +1,4 @@
 import express from 'express'
-import { StatusCodes } from 'http-status-codes'
 import { authRoutes } from './authRoutes.js'
 import { tranManagerRoutes } from './tranManagerRoutes.js'
 import { gatherManagerRoutes } from './gatherManagerRoutes.js'

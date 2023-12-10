@@ -7,10 +7,10 @@ import { tranEmployeeService } from '../services/tranEmployeeService.js'
 const createOrder = async (req, res, next) => {
   try {
     const { name, senderEmail, receiverEmail, tranPlaceId} = req.body
-    if( !name || !senderEmail || !receiverEmail || tranPlaceId) {
+    if( !name || !senderEmail || !receiverEmail || !tranPlaceId) {
       throw new ApiError(StatusCodes.NO_CONTENT, 'Invalid input')
     } else {
-      const createdOrder = await gatherEmployeeService.createOrder(req.body)
+      const createdOrder = await tranEmployeeService.createOrder(req.body)
       res.status(StatusCodes.CREATED).json(createdOrder)
     }
   } catch (error) {
@@ -42,7 +42,8 @@ const updateOrder = async (req, res, next) => {
 // lấy tất cả đơn hàng sẽ gửi tới điểm tập kết
 const allOrdersToGather = async (req, res, next) => {
   try {
-    const id = req.params.id
+    console.log(req.headers.id)
+    const id = req.headers.id
     const allOrders = await tranEmployeeService.allOrdersToGather(id)
     res.status(StatusCodes.OK).json(allOrders)
     next()

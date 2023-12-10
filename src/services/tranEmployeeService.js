@@ -3,13 +3,14 @@ import {StatusCodes} from 'http-status-codes'
 import { orderTranModel } from '../models/orderTranModel.js'
 import { userModel } from '../models/userModel.js'
 import { intermediateModel } from '../models/intermediateModel.js'
+import mongoose from 'mongoose'
 
 
 //tạo đơn hàng cho người gửi và trả lại thông tin đơn hàng
 const createOrder = async (reqBody) => {
   try {
   let { name, status, dateSend, senderEmail, receiverEmail, tranPlaceId} = reqBody
-  status = 'confirm'
+  status = 'tranPlace'
   dateSend = new Date()
   const isSender = await userModel.findOne({ email: senderEmail })
   const isReceiver = await userModel.findOne({ email: receiverEmail })
@@ -55,9 +56,10 @@ const updateOrder = async (id, status) => {
 // lấy tất cả đơn hàng sẽ gửi tới điểm tập kết
 const allOrdersToGather = async (id) => {
   try {
+    // let objectId = new mongoose.Types.ObjectId(id)
     const allOrders = await orderTranModel.find({
-      _id: id,
-      status: 'confirm'
+      tranPlaceId: id,
+      status: 'tranPlace'
     })
     return allOrders
   } catch (error) {
@@ -69,13 +71,21 @@ const allOrdersToGather = async (id) => {
 
 // tạo đơn hàng gửi tới điểm tập kết
 const toGatherPlace = async (orders) => {
+  
   try {
     orders.map(order => {
-      intermediateModel.create(order)
-      orderTranModel.findOneAndDelete({
-        _id: order.id
-      })
+      let status = 'toInter'
+      let newOrder = {...order, status}
+      intermediateModel.create(newOrder)
     })
+
+    for (let index = 0; index < orders.length; index++) {
+      const element = orders[index]
+      await orderTranModel.deleteOne({
+        _id: element._id,
+      })
+    }
+    
     return 'Thêm thành công'
   } catch (error) {
     throw error

@@ -6,10 +6,12 @@ import { roleMiddleware } from '../../middlewares/roleMiddleware.js'
 
 const Router = express.Router()
 
-Router.use( jwtMiddleware.verifyToken )
+// Router.use( jwtMiddleware.verifyToken )
+// , roleMiddleware('tran_manager')
+// , roleMiddleware('tran_manager')
 
-Router.post('/register', roleMiddleware('tran_manager'), authController.createEmployee)
+Router.post('/register', authController.createEmployee)
 
-Router.delete('/manage/:id', roleMiddleware('tran_manager'), tranManagerController.deleteEmployee)
+Router.delete('/manage/:id', tranManagerController.deleteEmployee)
 
 export const tranManagerRoutes = Router
