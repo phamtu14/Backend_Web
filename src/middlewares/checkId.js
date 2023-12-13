@@ -1,4 +1,5 @@
-import { orderTranModel } from "../models/orderTranModel.js";
+import { tran2Model } from "../models/tran2.js";
+import { tran1Model } from "../models/tran1.js";
 import mongoose from "mongoose";
 
 const checkId = (req, res, next) => {
@@ -7,11 +8,15 @@ const checkId = (req, res, next) => {
     if(!id) {
       res.status(404).json('You are not allowed')
     }
-    const Oke = orderTranModel.find({
+    const Oke = tran2Model.find({
       _id: new mongoose.Types.ObjectId(id)
     })
 
-    if(!Oke) {
+    const oke = tran1Model.find({
+      _id: new mongoose.Types.ObjectId(id)
+    })
+
+    if(!Oke && !oke ) {
       res.status(404).json('You are not allowed')
     } else next()
   } catch (error) {

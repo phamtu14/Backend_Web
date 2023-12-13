@@ -42,7 +42,6 @@ const updateOrder = async (req, res, next) => {
 // lấy tất cả đơn hàng sẽ gửi tới điểm tập kết
 const allOrdersToGather = async (req, res, next) => {
   try {
-    console.log(req.headers.id)
     const id = req.headers.id
     const allOrders = await tranEmployeeService.allOrdersToGather(id)
     res.status(StatusCodes.OK).json(allOrders)
@@ -52,18 +51,44 @@ const allOrdersToGather = async (req, res, next) => {
   } 
 }
 
-
 // gửi hàng cho bên tập kết 
 const toGatherPlace =  async (req, res, next) => {
   try {
+    const id = req.headers.id
     const allOrders = req.body
-    if(allOrders.length <0) {
+    if(!id) {
+      throw new Error('Invalid id')
+    } else if(allOrders.length <0) {
       throw new Error('Need at least one order')
     } else {
-      const result = await tranEmployeeService.toGatherPlace(allOrders)
+      const result = await tranEmployeeService.toGatherPlace(id, allOrders)
       res.status(StatusCodes.OK).json(result)
       next()
     }
+  } catch (error) {
+    next( error )
+  }
+}
+
+// lay tat ca don hang tu diem tap ket gui ve
+const allOrdersRecGather = async (req, res, next) => {
+  try {
+    const id = req.headers.id
+    const allOrders = await tranEmployeeService.allOrdersRecGather(id)
+    res.status(StatusCodes.OK).json(allOrders)
+    next() 
+  } catch (error) {
+    next( error )
+  }
+}
+
+// nhận hàng từ điểm tập kết gần nhất
+const recGatherPlace = async (req, res, next) => {
+  try {
+      const id = req.headers.id
+      const result = await tranEmployeeService.recGatherPlace(id)
+      res.status(StatusCodes.OK).json(result)
+      next()
   } catch (error) {
     next( error )
   }
@@ -76,5 +101,7 @@ export const tranEmployeeController = {
   createOrder,
   updateOrder,
   toGatherPlace,
-  allOrdersToGather
+  allOrdersToGather,
+  recGatherPlace,
+  allOrdersRecGather
 }

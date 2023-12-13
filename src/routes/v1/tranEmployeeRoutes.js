@@ -10,12 +10,17 @@ const Router = express.Router()
 //, roleMiddleware('tran_employee')
 //, roleMiddleware('tran_employee')
 
-Router.post('/order', tranEmployeeController.createOrder)
+Router.post('/order', roleMiddleware('tran_employee'), tranEmployeeController.createOrder)
 
-Router.patch('/update/:id', tranEmployeeController.updateOrder)
+Router.patch('/update/:id', roleMiddleware('tran_employee'), tranEmployeeController.updateOrder)
 
-Router.get('/allOrders', checkId, tranEmployeeController.allOrdersToGather)
+Router.get('/allOutOrders', roleMiddleware('tran_employee'), checkId, tranEmployeeController.allOrdersToGather)
 
-Router.post('/toInter', tranEmployeeController.toGatherPlace)
+Router.post('/toGather', roleMiddleware('tran_employee'), tranEmployeeController.toGatherPlace)
+
+Router.get('/allInOrders', roleMiddleware('tran_employee'), checkId, tranEmployeeController.allOrdersRecGather)
+
+Router.post('/recGather', roleMiddleware('tran_employee'), tranEmployeeController.recGatherPlace)
+
 
 export const tranEmployeeRoutes = Router

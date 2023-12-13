@@ -11,4 +11,4 @@ const orderSchema = new mongoose.Schema({
   tranPlaceId: {type: mongoose.Types.ObjectId, required: true},
 })
 
-export const orderGatherModel = mongoose.model('Gather order', orderSchema);
+export const tran2Model = mongoose.model('Tran 2 order', orderSchema);

@@ -24,10 +24,10 @@ const createUser = async (req, res, next) => {
 //create a new employee
 const createEmployee = async (req, res, next) => {
   try {
-    const {name, email, password, role} = req.body
+    const {name, email, password, role, placeId} = req.body
     const regex = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
     const checkEmail = regex.test(email)
-    if(!name || !email || !password || !role) {
+    if(!name || !email || !password || !role || !placeId) {
       throw new ApiError(StatusCodes.NO_CONTENT, 'Invalid input')
     } else if (!checkEmail) {
       throw new ApiError(300, 'Invalid email')

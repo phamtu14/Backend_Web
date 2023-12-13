@@ -11,4 +11,4 @@ const orderSchema = new mongoose.Schema({
   tranPlaceId: {type: mongoose.Types.ObjectId, required: true},
 })
 
-export const orderTranModel = mongoose.model('Transaction order', orderSchema);
+export const ga2Model = mongoose.model('Gather 2 order', orderSchema);

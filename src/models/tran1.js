@@ -11,4 +11,4 @@ const orderSchema = new mongoose.Schema({
   tranPlaceId: {type: mongoose.Types.ObjectId, required: true},
 })
 
-export const intermediateModel = mongoose.model('Intermediate order', orderSchema);
+export const tran1Model = mongoose.model('Tran 1 order', orderSchema);
