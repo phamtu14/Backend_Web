@@ -14,4 +14,6 @@ Router.post('/register', authController.createEmployee)
 
 Router.delete('/manage/:id',gatherManagerController.deleteEmployee )
 
+Router.get('/all', gatherManagerController.getALlEmployees)
+
 export const gatherManagerRoutes = Router

@@ -20,6 +20,26 @@ const deleteEmployee = async (id) => {
   }
   }
 
+const getALlEmployees = async (id) => {
+    try {
+      const isManager = await employeeModel.findOne({
+        _id: id
+      })
+      if(!isManager) {
+        throw new ApiError(StatusCodes.NOT_FOUND, 'This is not a manager')
+      } else {
+        const results = await employeeModel.find({
+          placeId: isManager.placeId,
+          role: 'gather_employee'
+        })
+        return results
+      } 
+    } catch (error) {
+      throw error
+    }
+  }
+
 export const gatherManagerService = {
-  deleteEmployee
+  deleteEmployee,
+  getALlEmployees
 }

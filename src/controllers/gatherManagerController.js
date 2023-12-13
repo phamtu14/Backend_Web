@@ -17,7 +17,18 @@ const deleteEmployee = async (req, res, next) => {
   }
 }
 
+const getALlEmployees = async (req, res, next) => {
+  try {
+    const id = req.headers.id
+    const results = await gatherManagerService.getALlEmployees(id)
+    res.status(StatusCodes.OK).json( results )
+    next()
+  } catch (error) {
+    next( error)
+  }
+}
+
 export const gatherManagerController = {
   deleteEmployee,
-
+  getALlEmployees
 }

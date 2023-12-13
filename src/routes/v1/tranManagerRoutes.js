@@ -14,4 +14,6 @@ Router.post('/register', authController.createEmployee)
 
 Router.delete('/manage/:id', tranManagerController.deleteEmployee)
 
+Router.get('/all', tranManagerController.getALlEmployees)
+
 export const tranManagerRoutes = Router
