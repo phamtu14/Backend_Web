@@ -6,6 +6,7 @@ import { tranEmployeeService } from '../services/tranEmployeeService.js'
 //nhận đơn hàng của người gửi và trả lại thông tin đơn hàng
 const createOrder = async (req, res, next) => {
   try {
+    console.log(req.body)
     const { name, senderEmail, receiverEmail, tranPlaceId} = req.body
     if( !name || !senderEmail || !receiverEmail || !tranPlaceId) {
       throw new ApiError(StatusCodes.NO_CONTENT, 'Invalid input')
@@ -94,6 +95,18 @@ const recGatherPlace = async (req, res, next) => {
   }
 }
 
+// thống kê hàng gửi, nhận, chuyển
+const statistical = async (req, res, next) => {
+  try {
+    const id = req.headers.id
+    const result = await tranEmployeeService.statistical(id)
+    res.status(StatusCodes.OK).json(result)
+    next()
+  } catch (error) {
+    next( error )
+  }
+}
+
 
 //ghi nhận đơn hàng từ điểm tập kết về
 
@@ -103,5 +116,6 @@ export const tranEmployeeController = {
   toGatherPlace,
   allOrdersToGather,
   recGatherPlace,
-  allOrdersRecGather
+  allOrdersRecGather,
+  statistical
 }

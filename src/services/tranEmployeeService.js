@@ -193,11 +193,21 @@ const recGatherPlace = async (id) => {
   }
 }
 
+//thống kê
+const statistical = async (id) => {
+  // try {
+  //   let 
+  // } catch (error) {
+  //   throw error
+  // }
+}
+
 export const tranEmployeeService = {
   createOrder,
   updateOrder,
   toGatherPlace,
   allOrdersToGather,
   allOrdersRecGather,
-  recGatherPlace
+  recGatherPlace,
+  statistical
 }
