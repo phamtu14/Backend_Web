@@ -13,6 +13,8 @@ const verifyToken = (req, res, next) => {
           throw new ApiError(StatusCodes.FORBIDDEN, 'Token is not invalid')
         } else {
           req.headers.role = decodedToken.role
+          req.headers.id = decodedToken.id
+          req.headers.placeId = decodedToken.placeId
           next()
         }
       })

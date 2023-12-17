@@ -43,8 +43,8 @@ const updateOrder = async (req, res, next) => {
 // lấy tất cả đơn hàng sẽ gửi tới điểm tập kết
 const allOrdersToGather = async (req, res, next) => {
   try {
-    const id = req.headers.id
-    const allOrders = await tranEmployeeService.allOrdersToGather(id)
+    const placeId = req.headers.placeid
+    const allOrders = await tranEmployeeService.allOrdersToGather(placeId)
     res.status(StatusCodes.OK).json(allOrders)
     next()
   } catch (error) {
@@ -55,7 +55,7 @@ const allOrdersToGather = async (req, res, next) => {
 // gửi hàng cho bên tập kết 
 const toGatherPlace =  async (req, res, next) => {
   try {
-    const id = req.headers.id
+    const id = req.headers.placeid
     const allOrders = req.body
     if(!id) {
       throw new Error('Invalid id')
@@ -74,7 +74,7 @@ const toGatherPlace =  async (req, res, next) => {
 // lay tat ca don hang tu diem tap ket gui ve
 const allOrdersRecGather = async (req, res, next) => {
   try {
-    const id = req.headers.id
+    const id = req.headers.placeid
     const allOrders = await tranEmployeeService.allOrdersRecGather(id)
     res.status(StatusCodes.OK).json(allOrders)
     next() 
@@ -86,7 +86,7 @@ const allOrdersRecGather = async (req, res, next) => {
 // nhận hàng từ điểm tập kết gần nhất
 const recGatherPlace = async (req, res, next) => {
   try {
-      const id = req.headers.id
+      const id = req.headers.placeid
       const result = await tranEmployeeService.recGatherPlace(id)
       res.status(StatusCodes.OK).json(result)
       next()
@@ -98,7 +98,7 @@ const recGatherPlace = async (req, res, next) => {
 // thống kê hàng gửi, nhận, chuyển
 const statistical = async (req, res, next) => {
   try {
-    const id = req.headers.id
+    const id = req.headers.placeid
     const result = await tranEmployeeService.statistical(id)
     res.status(StatusCodes.OK).json(result)
     next()

@@ -4,16 +4,17 @@ import mongoose from "mongoose";
 
 const checkId = (req, res, next) => {
   try {
-    let id = req.headers.id
+    let id = req.headers.placeid
+    console.log(req.headers)
     if(!id) {
       res.status(404).json('You are not allowed')
     }
     const Oke = tran2Model.find({
-      _id: new mongoose.Types.ObjectId(id)
+      placeId: new mongoose.Types.ObjectId(id)
     })
 
     const oke = tran1Model.find({
-      _id: new mongoose.Types.ObjectId(id)
+      placeId: new mongoose.Types.ObjectId(id)
     })
 
     if(!Oke && !oke ) {
