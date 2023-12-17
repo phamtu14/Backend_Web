@@ -10,18 +10,25 @@ const Router = express.Router()
 //, roleMiddleware('tran_employee')
 //, roleMiddleware('tran_employee'
 
+// tạo mới đơn hàng của người gửi và thêm vào database
 Router.post('/order', tranEmployeeController.createOrder)
 
+//cập nhật trạng thái của đơn hàng
 Router.patch('/update/:id', tranEmployeeController.updateOrder)
 
+//lấy tất cả đơn hàng để gửi tới điểm tập kết
 Router.get('/allOutOrders', checkId, tranEmployeeController.allOrdersToGather)
 
+//gửi những đơn hàng đã lấy tới điểm tập kết
 Router.post('/toGather', tranEmployeeController.toGatherPlace)
 
+//lấy tất cả đơn hàng từ điểm tập kết gửi về
 Router.get('/allInOrders', checkId, tranEmployeeController.allOrdersRecGather)
 
+//nhập những đơn hàng được nhận từ điểm tập kết vào kho
 Router.post('/recGather', tranEmployeeController.recGatherPlace)
 
+//thống kê hàng gửi thành công, hàng gửi lỗi(chưa xong đâu)
 Router.get('/statistical', tranEmployeeController.statistical)
 
 
