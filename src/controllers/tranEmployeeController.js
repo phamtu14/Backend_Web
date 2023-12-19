@@ -25,12 +25,13 @@ const updateOrder = async (req, res, next) => {
     if (!req.params.id) {
       throw new ApiError(StatusCodes.NOT_FOUND, 'Invalid id')
     } else {
+      const placeId = req.headers.placeid
       const id = req.params.id
       const status = req.body.status
       if(!id || !status) {
         throw new ApiError( StatusCodes.NOT_FOUND, 'Missing id or status')
       } else {
-        const result = await tranEmployeeService.updateOrder(id, status)
+        const result = await tranEmployeeService.updateOrder(placeId, id, status)
         res.status( StatusCodes.OK ).json(result)
         next()
       } 
@@ -100,7 +101,10 @@ const statistical = async (req, res, next) => {
   try {
     const id = req.headers.placeid
     const result = await tranEmployeeService.statistical(id)
-    res.status(StatusCodes.OK).json(result)
+    res.status(StatusCodes.OK).json({
+      success: result.success.length,
+      failed: result.failed.length
+    })
     next()
   } catch (error) {
     next( error )

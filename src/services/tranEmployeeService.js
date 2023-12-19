@@ -5,6 +5,7 @@ import { userModel } from '../models/userModel.js'
 import { tran1Model } from '../models/tran1.js'
 import { ga1Model } from '../models/ga1.js'
 import { ga2Model } from '../models/ga2.js'
+import { orderUserModel } from '../models/userOrder.js'
 import mongoose from 'mongoose'
 
 
@@ -47,31 +48,54 @@ const createOrder = async (reqBody) => {
 
 
 //trả hàng cho người nhận
-const updateOrder = async (id, status) => {
+const updateOrder = async (placeId, id, status) => {
   try {
-    let order1 = await tran1Model.findOne({ _id: id })
-    let order2 = await tran2Model.findOne({ _id: id })
+    if (placeId === '6554d12d2c07dd4087e973d1') {
+      if(status === 'success') {
+        let order = await tran1Model.findOneAndUpdate(
+          { _id: id },
+          { $set: { status: status } },
+          {$set : {dateReceive: new Date()}}, 
+          { new: true } 
+        )
 
-    if (!order1 && !order2) {
-      throw new ApiError(StatusCodes.NOT_FOUND, 'Invalid order')
-    } else if(order1 && !order2){
-      let newOrder = await tran1Model.findOneAndUpdate(
-        { _id: id },
-        { $set: { status: status } },
-        {$set : {dateReceive: new Date()}}, 
-        { new: true } 
-      )
-      let result = await userModel.create(newOrder)
-      return result
-    } else if(!order1 && order2){
-      let newOrder = await tran2Model.findOneAndUpdate(
-        { _id: id },
-        { $set: { status: status } },
-        {$set : {dateReceive: new Date()}},
-        { new: true } 
-      )
-      let result = await userModel.create(newOrder)
-      return result
+        let {_id, ...others} = order._doc
+
+        await orderUserModel.create(others)
+        return 'Gửi thành công'
+      } else if(status === 'failed') {
+        await tran1Model.findOneAndUpdate(
+          { _id: id },
+          { $set: { status: status } },
+          {$set : {dateReceive: new Date()}}, 
+          { new: true } 
+        )
+        
+        return 'Gửi thất bại'
+      }
+    } else if(placeId === '656d40bc0737c805b3df4282'){
+      if(status === 'success') {
+        let newOrder = await tran2Model.findOneAndUpdate(
+          { _id: id },
+          { $set: { status: status } },
+          {$set : {dateReceive: new Date()}}, 
+          { new: true } 
+        )
+
+        let {_id, ...others} = order._doc
+
+        await orderUserModel.create(others)
+        return 'Gửi thành công'
+      } else if(status === 'failed') {
+        await tran2Model.findOneAndUpdate(
+          { _id: id },
+          { $set: { status: status } },
+          {$set : {dateReceive: new Date()}}, 
+          { new: true } 
+        )
+        
+        return 'Gửi thất bại'
+      }
     }
   } catch (error) {
     throw error
@@ -195,11 +219,33 @@ const recGatherPlace = async (id) => {
 
 //thống kê
 const statistical = async (id) => {
-  // try {
-  //   let 
-  // } catch (error) {
-  //   throw error
-  // }
+  try {
+    if(id === '6554d12d2c07dd4087e973d1') {
+      let success = await tran1Model.find({
+        status: 'success'
+      })
+
+      let failed = await tran1Model.find({
+        status: 'failed'
+      })
+
+      return {success, failed}
+    } else if(id === '656d40bc0737c805b3df4282') {
+      let successful = await tran2Model.find({
+        status: 'success'
+      })
+      let failure = await tran2Model.find({
+        status: 'failed'
+      })
+
+      let success = successful.length
+      let failed = failure.length
+
+      return {success, failed}
+    }
+  } catch (error) {
+    throw error
+  }
 }
 
 export const tranEmployeeService = {
