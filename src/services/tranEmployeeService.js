@@ -75,7 +75,7 @@ const updateOrder = async (placeId, id, status) => {
       }
     } else if(placeId === '656d40bc0737c805b3df4282'){
       if(status === 'success') {
-        let newOrder = await tran2Model.findOneAndUpdate(
+        let order = await tran2Model.findOneAndUpdate(
           { _id: id },
           { $set: { status: status } },
           {$set : {dateReceive: new Date()}}, 
@@ -221,14 +221,14 @@ const recGatherPlace = async (id) => {
 const statistical = async (id) => {
   try {
     if(id === '6554d12d2c07dd4087e973d1') {
-      let success = await tran1Model.find({
+      let successful = await tran1Model.find({
         status: 'success'
       })
-
-      let failed = await tran1Model.find({
+      let failure = await tran1Model.find({
         status: 'failed'
       })
-
+      let success = successful.length
+      let failed = failure.length
       return {success, failed}
     } else if(id === '656d40bc0737c805b3df4282') {
       let successful = await tran2Model.find({
@@ -237,10 +237,8 @@ const statistical = async (id) => {
       let failure = await tran2Model.find({
         status: 'failed'
       })
-
       let success = successful.length
       let failed = failure.length
-
       return {success, failed}
     }
   } catch (error) {

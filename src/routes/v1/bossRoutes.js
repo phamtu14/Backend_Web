@@ -15,4 +15,6 @@ Router.post('/place', roleMiddleware('boss'), bossController.createPlace)
 
 Router.get('/place', roleMiddleware('boss'), bossController.getAllPlaces)
 
+Router.get('/statistical', bossController.statistical)
+
 export const bossRoutes = Router

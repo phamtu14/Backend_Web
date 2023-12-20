@@ -20,7 +20,6 @@ const allOrderFromTran = async (id) => {
   }
 } 
 
-
 // xác nhận đơn hàng từ điểm giao dịch gửi tới
 const toGather = async (id) => {
   try {

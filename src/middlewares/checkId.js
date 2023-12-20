@@ -5,7 +5,6 @@ import mongoose from "mongoose";
 const checkId = (req, res, next) => {
   try {
     let id = req.headers.placeid
-    console.log(req.headers)
     if(!id) {
       res.status(404).json('You are not allowed')
     }

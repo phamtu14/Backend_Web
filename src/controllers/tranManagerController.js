@@ -28,7 +28,23 @@ const getALlEmployees = async (req, res, next) => {
   }
 }
 
+// thống kê hàng gửi, hàng nhận
+const statistical = async (req, res, next) => {
+  try {
+    const id = req.headers.placeid
+    if(!id) {
+      return 'Missing place id'
+    } else {
+      const result = await tranManagerService.statistical(id);
+      res.status(StatusCodes.OK).json( result )
+    }
+  } catch (error) {
+    next( error )
+  }
+}
+
 export const tranManagerController = {
   deleteEmployee,
-  getALlEmployees
+  getALlEmployees,
+  statistical
 }

@@ -28,7 +28,10 @@ Router.get('/allInOrders', checkId, tranEmployeeController.allOrdersRecGather)
 //nhập những đơn hàng được nhận từ điểm tập kết vào kho
 Router.post('/recGather', tranEmployeeController.recGatherPlace)
 
-//thống kê hàng gửi thành công, hàng gửi lỗi(chưa xong đâu)
+// Gửi hàng tới người nhận
+
+
+//thống kê hàng gửi thành công, hàng gửi không thành công (2 trạng thái success hoặc failed)
 Router.get('/statistical', tranEmployeeController.statistical)
 
 

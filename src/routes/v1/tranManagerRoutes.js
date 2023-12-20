@@ -10,10 +10,18 @@ const Router = express.Router()
 // , roleMiddleware('tran_manager')
 // , roleMiddleware('tran_manager')
 
+// tạo tài khoản cho nhân viên
 Router.post('/register', authController.createEmployee)
 
-Router.delete('/manage/:id', tranManagerController.deleteEmployee)
+// xóa tài khoản của nhân viên
+Router.delete('/manage/:id', roleMiddleware('tran_manager'), tranManagerController.deleteEmployee)
 
-Router.get('/all', tranManagerController.getALlEmployees)
+// lấy tất cả tài khoản của nhân viên mình quản lý
+Router.get('/all', roleMiddleware('tran_manager'), tranManagerController.getALlEmployees)
+
+// thống kê hàng gửi, hàng nhận tại điểm giao dịch
+Router.get('/statistical', tranManagerController.statistical)
+
+
 
 export const tranManagerRoutes = Router

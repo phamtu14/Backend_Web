@@ -12,8 +12,11 @@ const Router = express.Router()
 
 Router.post('/register', authController.createEmployee)
 
-Router.delete('/manage/:id',gatherManagerController.deleteEmployee )
+Router.delete('/manage/:id', roleMiddleware('gather_manager'),gatherManagerController.deleteEmployee )
 
-Router.get('/all', gatherManagerController.getALlEmployees)
+Router.get('/all', roleMiddleware('gather_manager'), gatherManagerController.getALlEmployees)
+
+// thống kê hàng gửi, hàng nhận tại điểm giao dịch
+Router.get('/statistical', gatherManagerController.statistical)
 
 export const gatherManagerRoutes = Router
