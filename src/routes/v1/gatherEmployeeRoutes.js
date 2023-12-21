@@ -18,5 +18,17 @@ Router.get('/orderToEnd', gatherEmployeeController.allOrderToEnd)
 //gửi hàng tới điểm giao dịch đích
 Router.post('/toEnd', gatherEmployeeController.toEndGather)
 
+// lất tất cả đơn hàng ghi nhận từ điểm tập kết gửi tới
+Router.get('/confirmToEnd', gatherEmployeeController.confirmToEnd)
+
+// ghi nhận đơn hàng từ điểm tập kết khác
+Router.post('/inGather', gatherEmployeeController.inGather)
+
+// lấy tất cả đơn hàng gửi về điểm giao dịch
+Router.get('/allOrdersToTran', gatherEmployeeController.allOrdersToTran)
+
+// Gửi hàng về điểm giao dịch
+Router.post('/toTran', gatherEmployeeController.toTran)
+
 
 export const gatherEmployeeRoutes = Router

@@ -6,7 +6,7 @@ import { roleMiddleware } from '../../middlewares/roleMiddleware.js'
 
 const Router = express.Router()
 
-// Router.use( jwtMiddleware.verifyToken )
+ Router.use( jwtMiddleware.verifyToken )
 // , roleMiddleware('gather_manager')
 // , roleMiddleware('gather_manager')
 

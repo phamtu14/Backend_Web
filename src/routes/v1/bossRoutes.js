@@ -14,7 +14,7 @@ Router.get('/manage', roleMiddleware('boss'), bossController.getAllEmployees)
 Router.delete('/manage/:id', roleMiddleware('boss'), bossController.deleteEmployee)
 
 // tạo thêm 1 điểm giao dịch hoặc tập kết
-Router.post('/place', roleMiddleware('boss'), bossController.createPlace)
+// Router.post('/place', roleMiddleware('boss'), bossController.createPlace)
 
 // lấy ra tất cả điểm giao dịch hoặc tập kết
 Router.get('/place', roleMiddleware('boss'), bossController.getAllPlaces)

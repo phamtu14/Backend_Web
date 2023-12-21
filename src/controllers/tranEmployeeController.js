@@ -101,8 +101,8 @@ const statistical = async (req, res, next) => {
     const id = req.headers.placeid
     const result = await tranEmployeeService.statistical(id)
     res.status(StatusCodes.OK).json({
-      success: result.success.length,
-      failed: result.failed.length
+      success: result.success,
+      failed: result.failed
     })
     next()
   } catch (error) {

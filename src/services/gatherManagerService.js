@@ -46,11 +46,11 @@ const statistical = async (id) => {
   try {
     if(id === '6554d16f2c07dd4087e973d3') {
       let send = await ga1Model.find({
-        status: 'toNextGather'
+        status: 'inGather'
       })
 
       let receive = await ga1Model.find({
-        status: 'inGather'
+        status: 'toGather'
       })
 
       let sended = send.length
@@ -59,11 +59,11 @@ const statistical = async (id) => {
       return {sended, received}
     } else if(id === '656d3f717662b1b1d89232bb') {
       let send = await ga2Model.find({
-        status: 'toNextGather'
+        status: 'inGather'
       })
 
       let receive = await ga2Model.find({
-        status: 'inGather'
+        status: 'toGather'
       })
 
       let sended = send.length
