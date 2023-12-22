@@ -4,7 +4,10 @@ import { env } from '../config/environment.js'
 const generateAccessToken = (user) => {
   return jwt.sign({
     id: user._id,
-    role: user.role
+    role: user.role,
+    placeId: user.placeId,
+    senderEmail: user.senderEmail,
+    receiverEmail: user.receiverEmail
   },
   env.JWT_ACCESS_KEY,
   {expiresIn: "2h"}
@@ -14,7 +17,10 @@ const generateAccessToken = (user) => {
 const generateRefreshToken = (user) => {
   return jwt.sign({
     id: user._id,
-    role: user.role
+    role: user.role,
+    placeId: user.placeId,
+    senderEmail: user.senderEmail,
+    receiverEmail: user.receiverEmail
   },
   env.JWT_REFRESH_KEY,
   {expiresIn: "30d"}
