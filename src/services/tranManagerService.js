@@ -50,7 +50,7 @@ const statistical = async (id) => {
       })
 
       let receive = await tran1Model.find({
-        status: 'inPlace'
+        status: 'failed'
       })
 
       let sended = send.length
@@ -63,7 +63,7 @@ const statistical = async (id) => {
       })
 
       let receive = await tran2Model.find({
-        status: 'inPlace'
+        status: 'failed'
       })
 
       let sended = send.length

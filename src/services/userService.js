@@ -1,58 +1,78 @@
 import ApiError from '../utils/ApiError.js'
 import {StatusCodes} from 'http-status-codes'
 // import { orderTranModel } from '../models/orderTranModel.js'
-import { userModel } from '../models/userModel.js'
-import mongoose from 'mongoose'
-
+import mongoose from 'mongoose' 
+import { orderUserModel } from '../models/userOrder.js'
+import { tran1Model } from '../models/tran1.js'
+import { tran2Model } from '../models/tran2.js'
+ 
 //get all sended orders
-const getAllSendOrders = async (id) => {
-  // try {
-  //   const objectId = new mongoose.Types.ObjectId(id)
-  //   const isUser = await userModel.findOne({ _id: objectId })
-  //   console.log(isUser)
-  //   if (!isUser) {
-  //     return 'this is not a user'
-  //   } else {
-  //   const allOrders = await orderTranModel.find()
-  //   const userOrders = []
-  //   for( let i = 0; i < allOrders.length; i ++) {
-  //     if( allOrders[i].senderEmail === isUser.email ) {
-  //       if(allOrders[i].status === 'received') {
-  //         allOrders[i].status = 'sended'
-  //       }
-  //       userOrders.push(allOrders[i])
-  //     }
-  //   }
-  //   return userOrders
-  //   }
-  //  } catch (error) {
-  //   throw error
-  //  }
+const getAllSendOrders = async (senderEmail) => {
+  try {
+      const allOrders = await orderUserModel.find({
+        status: 'send',
+        senderEmail: senderEmail
+      })
+      return allOrders
+    } catch (error) {
+      throw error
+     } 
+   } 
+//get all received orders
+const getAllReceiveOrders = async (receiverEmail) => {
+  try {
+    const allOrders = await orderUserModel.find({
+      status: 'received',
+      receiverEmail: receiverEmail
+    })
+    return allOrders
+  } catch (error) {
+    throw error
+   } 
 }
 
-//get all received orders
-const getAllReceiveOrders = async (id) => {
-//  try {
-//   const objectId = new mongoose.Types.ObjectId(id)
-//   const isUser = await userModel.findOne({ _id: objectId })
-//   if (!isUser) {
-//     return 'this is not a user'
-//   } else {
-//   const allOrders = await orderTranModel.find()
-//   const userOrders = []
-//   for( let i = 0; i < allOrders.length; i ++) {
-//     if( allOrders[i].receiverEmail === isUser.email && allOrders[i].status === 'received' ) {
-//       userOrders.push(allOrders[i])
-//     }
-//   }
-//   return userOrders
-//   }
-//  } catch (error) {
-//   throw error
-//  }
+// lấy tất cả đơn hàng được gửi tới
+const allOrders = async (receiverEmail) => {
+  try {
+    const allOrders = await orderUserModel.find({
+      status: 'toUser',
+      receiverEmail: receiverEmail
+    })
+    return allOrders
+  } catch (error) {
+    throw error
+   } 
 }
+
+// xác nhận đơn hàng
+const acceptOrder = async(orderId, placeId) => {
+  try {
+    let result = await orderUserModel.findByIdAndUpdate(
+      {_id: orderId},
+      {$set: {status: 'received'}},
+      {new: true}
+    )
+    if(placeId === '6554d12d2c07dd4087e973d1') {
+      await tran1Model.findByIdAndUpdate(
+        {_id: orderId},
+        {$set: {status: 'success'}},
+        {new: true})
+    } else if(placeId === '656d40bc0737c805b3df4282') {
+      await tran2Model.findByIdAndUpdate(
+        {_id: orderId},
+        {$set: {status: 'success'}},
+        {new: true})
+    }
+    return result
+  } catch (error) {
+    throw error
+  }
+}
+
 
 export const userService = {
   getAllSendOrders,
-  getAllReceiveOrders
+  getAllReceiveOrders,
+  allOrders,
+  acceptOrder
 }

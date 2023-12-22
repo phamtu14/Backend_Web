@@ -7,9 +7,8 @@ import { env } from '../config/environment.js'
 //get all sended orders
 const getAllSendOrders = async (req, res, next) => {
   try {
-    const token = req.headers.accesstoken
-    const decoded = jwt.verify(token, env.JWT_ACCESS_KEY)
-    const allOrders = await userService.getAllSendOrders(decoded.id)
+    const senderEmail = req.headers.senderemail
+    const allOrders = await userService.getAllSendOrders(senderEmail)
     res.status(StatusCodes.OK).json(allOrders)
     next()
   } catch (error) {
@@ -20,9 +19,35 @@ const getAllSendOrders = async (req, res, next) => {
 //get all received orders
 const getAllReceiveOrders = async (req, res, next) => {
   try {
-    const userEmail = req.body.email
-    const allOrders = await userService.getAllReceiveOrders(userEmail)
+    const receiverEmail = req.headers.receiveremail
+    const allOrders = await userService.getAllReceiveOrders(receiverEmail)
     res.status(StatusCodes.OK).json(allOrders)
+    next()
+  } catch (error) {
+    next( error )
+  }
+}
+
+// lấy tất cả đơn hàng được gửi tới
+const allOrders = async(req, res, next) => {
+  try {
+    const receiverEmail = req.headers.receiveremail
+    const allOrders = await userService.allOrders(receiverEmail)
+    res.status(StatusCodes.OK).json(allOrders)
+    next()
+  } catch (error) {
+    next( error )
+  }
+}
+
+
+// xác nhận đơn hàng
+const acceptOrder = async (req, res, next) => {
+  try {
+    const orderId = req.body.orderId
+    const placeId = req.body.placeId
+    const result = await userService.acceptOrder(orderId, placeId)
+    res.status(StatusCodes.OK).json(result)
     next()
   } catch (error) {
     next( error )
@@ -31,5 +56,7 @@ const getAllReceiveOrders = async (req, res, next) => {
 
 export const userController = {
   getAllSendOrders,
-  getAllReceiveOrders
+  getAllReceiveOrders,
+  acceptOrder,
+  allOrders
 }

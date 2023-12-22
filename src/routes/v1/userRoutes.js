@@ -13,4 +13,10 @@ Router.get('/send', userController.getAllSendOrders)
 
 Router.get('/receive', userController.getAllReceiveOrders)
 
+// lấy tất cả đơn hàng được gửi tới
+Router.get('/allOrders', userController.allOrders)
+
+// xác nhận đơn hàng
+Router.post('/acceptOrder', userController.acceptOrder)
+
 export const userRoutes = Router

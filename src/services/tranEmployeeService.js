@@ -29,7 +29,10 @@ const createOrder = async (reqBody) => {
           receiverEmail: receiverEmail,
           tranPlaceId
         })
-        return createdOrder
+    let newStatus = "send"
+    createdOrder.status = newStatus
+    await orderUserModel.insertMany(createdOrder)
+    return createdOrder
    } else if(tranPlaceId === '656d40bc0737c805b3df4282') {
     const createdOrder = await tran2Model.create( {
       name, 
@@ -39,6 +42,9 @@ const createOrder = async (reqBody) => {
       receiverEmail: receiverEmail,
       tranPlaceId
     })
+    let newStatus = "send"
+    createdOrder.status = newStatus
+    await orderUserModel.insertMany(createdOrder)
     return createdOrder
    }
   } catch (error) {
@@ -46,61 +52,6 @@ const createOrder = async (reqBody) => {
   }
 }
 
-
-//trả hàng cho người nhận
-const updateOrder = async (placeId, id, status) => {
-  try {
-    if (placeId === '6554d12d2c07dd4087e973d1') {
-      if(status === 'success') {
-        let order = await tran1Model.findOneAndUpdate(
-          { _id: id },
-          { $set: { status: status } },
-          {$set : {dateReceive: new Date()}}, 
-          { new: true } 
-        )
-
-        let {_id, ...others} = order._doc
-
-        await orderUserModel.create(others)
-        return 'Gửi thành công'
-      } else if(status === 'failed') {
-        await tran1Model.findOneAndUpdate(
-          { _id: id },
-          { $set: { status: status } },
-          {$set : {dateReceive: new Date()}}, 
-          { new: true } 
-        )
-        
-        return 'Gửi thất bại'
-      }
-    } else if(placeId === '656d40bc0737c805b3df4282'){
-      if(status === 'success') {
-        let order = await tran2Model.findOneAndUpdate(
-          { _id: id },
-          { $set: { status: status } },
-          {$set : {dateReceive: new Date()}}, 
-          { new: true } 
-        )
-
-        let {_id, ...others} = order._doc
-
-        await orderUserModel.create(others)
-        return 'Gửi thành công'
-      } else if(status === 'failed') {
-        await tran2Model.findOneAndUpdate(
-          { _id: id },
-          { $set: { status: status } },
-          {$set : {dateReceive: new Date()}}, 
-          { new: true } 
-        )
-        
-        return 'Gửi thất bại'
-      }
-    }
-  } catch (error) {
-    throw error
-  }
-}
 
 // lấy tất cả đơn hàng sẽ gửi tới điểm tập kết
 const allOrdersToGather = async (id) => {
@@ -185,7 +136,7 @@ const allOrdersRecGather = async (id) => {
 //nhận hàng từ điểm tập kết
 const recGatherPlace = async (id) => {
   try {
-    let status = 'inPlace'
+    let status = 'failed'
     if (id === '6554d12d2c07dd4087e973d1') {
       let allOrders = await tran1Model.find({
         status: 'pending'
@@ -246,12 +197,111 @@ const statistical = async (id) => {
   }
 }
 
+// //trả hàng cho người nhận
+// const updateOrder = async (placeId, id, status) => {
+//   try {
+//     if (placeId === '6554d12d2c07dd4087e973d1') {
+//       if(status === 'success') {
+//         let order = await tran1Model.findOneAndUpdate(
+//           { _id: id },
+//           { $set: { status: status } },
+//           {$set : {dateReceive: new Date()}}, 
+//           { new: true } 
+//         )
+
+//         let {_id, ...others} = order._doc
+
+//         await orderUserModel.create(others)
+//         return 'Gửi thành công'
+//       } else if(status === 'failed') {
+//         await tran1Model.findOneAndUpdate(
+//           { _id: id },
+//           { $set: { status: status } },
+//           {$set : {dateReceive: new Date()}}, 
+//           { new: true } 
+//         )
+        
+//         return 'Gửi thất bại'
+//       }
+//     } else if(placeId === '656d40bc0737c805b3df4282'){
+//       if(status === 'success') {
+//         let order = await tran2Model.findOneAndUpdate(
+//           { _id: id },
+//           { $set: { status: status } },
+//           {$set : {dateReceive: new Date()}}, 
+//           { new: true } 
+//         )
+
+//         let {_id, ...others} = order._doc
+
+//         await orderUserModel.create(others)
+//         return 'Gửi thành công'
+//       } else if(status === 'failed') {
+//         await tran2Model.findOneAndUpdate(
+//           { _id: id },
+//           { $set: { status: status } },
+//           {$set : {dateReceive: new Date()}}, 
+//           { new: true } 
+//         )
+        
+//         return 'Gửi thất bại'
+//       }
+//     }
+//   } catch (error) {
+//     throw error
+//   }
+// }
+
+// lấy tất cả đơn hàng để gửi lại cho người nhận
+const allToUser = async (id) => {
+  try {
+    if(id === '6554d12d2c07dd4087e973d1') {
+      let result = await tran1Model.find({
+        status: 'failed'
+      })
+      return result
+    } else if(id === '656d40bc0737c805b3df4282') {
+      let result = await tran2Model.find({
+        status: 'failed'
+      })
+      return result
+    }
+  } catch (error) {
+    throw error
+  }
+}
+
+// gửi hàng tới người nhận
+const toUser = async(placeId, orderId) => {
+  try {
+    if(placeId === '6554d12d2c07dd4087e973d1') {
+      const objectId = new mongoose.Types.ObjectId(orderId)
+      let order = await tran1Model.findById(objectId)
+      let status = 'toUser'
+      order.status = status
+      await orderUserModel.insertMany(order)
+      return 'Gửi thành công'
+    } else if(placeId === '656d40bc0737c805b3df4282') {
+      const objectId = new mongoose.Types.ObjectId(orderId)
+      let order = await tran2Model.findById(objectId)
+      console.log(order)
+      let status = 'toUser'
+      order.status = status
+      await orderUserModel.insertMany(order)
+      return 'Gửi thành công'
+    }
+  } catch (error) {
+    throw error
+  }
+}
+
 export const tranEmployeeService = {
   createOrder,
-  updateOrder,
   toGatherPlace,
   allOrdersToGather,
   allOrdersRecGather,
   recGatherPlace,
-  statistical
+  statistical,
+  allToUser,
+  toUser
 }

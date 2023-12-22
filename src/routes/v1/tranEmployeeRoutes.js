@@ -14,7 +14,7 @@ const Router = express.Router()
 Router.post('/order', tranEmployeeController.createOrder)
 
 //cập nhật trạng thái của đơn hàng
-Router.patch('/update/:id', tranEmployeeController.updateOrder)
+// Router.patch('/update/:id', tranEmployeeController.updateOrder)
 
 //lấy tất cả đơn hàng để gửi tới điểm tập kết
 Router.get('/allOutOrders', checkId, tranEmployeeController.allOrdersToGather)
@@ -28,7 +28,11 @@ Router.get('/allInOrders', checkId, tranEmployeeController.allOrdersRecGather)
 //nhập những đơn hàng được nhận từ điểm tập kết vào kho
 Router.post('/recGather', tranEmployeeController.recGatherPlace)
 
+// lấy tất cả hàng gửi cho người nhận
+Router.get('/allToUser', tranEmployeeController.allToUser)
+
 // Gửi hàng tới người nhận
+Router.post('/toUser', tranEmployeeController.toUser)
 
 
 //thống kê hàng gửi thành công, hàng gửi không thành công (2 trạng thái success hoặc failed)

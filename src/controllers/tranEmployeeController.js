@@ -12,33 +12,34 @@ const createOrder = async (req, res, next) => {
     } else {
       const createdOrder = await tranEmployeeService.createOrder(req.body)
       res.status(StatusCodes.CREATED).json(createdOrder)
+      next()
     }
   } catch (error) {
     next( error )
   }
 }
 
-//trả đơn hàng cho người nhận
-const updateOrder = async (req, res, next) => { 
-  try {
-    if (!req.params.id) {
-      throw new ApiError(StatusCodes.NOT_FOUND, 'Invalid id')
-    } else {
-      const placeId = req.headers.placeid
-      const id = req.params.id
-      const status = req.body.status
-      if(!id || !status) {
-        throw new ApiError( StatusCodes.NOT_FOUND, 'Missing id or status')
-      } else {
-        const result = await tranEmployeeService.updateOrder(placeId, id, status)
-        res.status( StatusCodes.OK ).json(result)
-        next()
-      } 
-    }
-  } catch (error) {
-    next( error)
-  }
-}
+// //trả đơn hàng cho người nhận
+// const updateOrder = async (req, res, next) => { 
+//   try {
+//     if (!req.params.id) {
+//       throw new ApiError(StatusCodes.NOT_FOUND, 'Invalid id')
+//     } else {
+//       const placeId = req.headers.placeid
+//       const id = req.params.id
+//       const status = req.body.status
+//       if(!id || !status) {
+//         throw new ApiError( StatusCodes.NOT_FOUND, 'Missing id or status')
+//       } else {
+//         const result = await tranEmployeeService.updateOrder(placeId, id, status)
+//         res.status( StatusCodes.OK ).json(result)
+//         next()
+//       } 
+//     }
+//   } catch (error) {
+//     next( error)
+//   }
+// }
 
 // lấy tất cả đơn hàng sẽ gửi tới điểm tập kết
 const allOrdersToGather = async (req, res, next) => {
@@ -110,15 +111,48 @@ const statistical = async (req, res, next) => {
   }
 }
 
+// lấy tất cả đơn hàng để gửi lại cho người nhận
+const allToUser = async (req, res, next) => {
+  try {
+    const id = req.headers.placeid
+    if(!id) {
+      throw new ApiError(StatusCodes.NOT_FOUND, "No place id")
+    } else {
+      const result = await tranEmployeeService.allToUser(id)
+      res.status(StatusCodes.OK).json(result)
+      next()
+    }
+  } catch (error) {
+    next( error )
+  }
+}
 
-//ghi nhận đơn hàng từ điểm tập kết về
+// gửi hàng tới người nhận
+const toUser = async (req, res, next) => {
+  try {
+    const placeId = req.headers.placeid
+    const orderId = req.body.orderId
+    console.log(orderId)
+    if(!orderId) {
+      throw new ApiError(StatusCodes.NOT_FOUND, "Order not found")
+    } else {
+      const result = await tranEmployeeService.toUser(placeId, orderId)
+      res.status(StatusCodes.OK).json(result)
+      next()
+    }
+  } catch (error) {
+    next( error)
+  }
+}
+
 
 export const tranEmployeeController = {
   createOrder,
-  updateOrder,
   toGatherPlace,
   allOrdersToGather,
   recGatherPlace,
   allOrdersRecGather,
-  statistical
+  statistical,
+  allToUser,
+  toUser
 }
