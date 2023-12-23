@@ -6,8 +6,7 @@ const generateAccessToken = (user) => {
     id: user._id,
     role: user.role,
     placeId: user.placeId,
-    senderEmail: user.senderEmail,
-    receiverEmail: user.receiverEmail
+    email: user.email
   },
   env.JWT_ACCESS_KEY,
   {expiresIn: "2h"}
@@ -19,8 +18,7 @@ const generateRefreshToken = (user) => {
     id: user._id,
     role: user.role,
     placeId: user.placeId,
-    senderEmail: user.senderEmail,
-    receiverEmail: user.receiverEmail
+    email: user.email
   },
   env.JWT_REFRESH_KEY,
   {expiresIn: "30d"}

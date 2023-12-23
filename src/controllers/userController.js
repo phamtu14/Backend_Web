@@ -7,7 +7,7 @@ import { env } from '../config/environment.js'
 //get all sended orders
 const getAllSendOrders = async (req, res, next) => {
   try {
-    const senderEmail = req.headers.senderemail
+    const senderEmail = req.headers.email
     const allOrders = await userService.getAllSendOrders(senderEmail)
     res.status(StatusCodes.OK).json(allOrders)
     next()
@@ -19,7 +19,7 @@ const getAllSendOrders = async (req, res, next) => {
 //get all received orders
 const getAllReceiveOrders = async (req, res, next) => {
   try {
-    const receiverEmail = req.headers.receiveremail
+    const receiverEmail = req.headers.email
     const allOrders = await userService.getAllReceiveOrders(receiverEmail)
     res.status(StatusCodes.OK).json(allOrders)
     next()
@@ -31,7 +31,7 @@ const getAllReceiveOrders = async (req, res, next) => {
 // lấy tất cả đơn hàng được gửi tới
 const allOrders = async(req, res, next) => {
   try {
-    const receiverEmail = req.headers.receiveremail
+    const receiverEmail = req.headers.email
     const allOrders = await userService.allOrders(receiverEmail)
     res.status(StatusCodes.OK).json(allOrders)
     next()

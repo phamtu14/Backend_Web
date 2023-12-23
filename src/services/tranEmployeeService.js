@@ -284,7 +284,6 @@ const toUser = async(placeId, orderId) => {
     } else if(placeId === '656d40bc0737c805b3df4282') {
       const objectId = new mongoose.Types.ObjectId(orderId)
       let order = await tran2Model.findById(objectId)
-      console.log(order)
       let status = 'toUser'
       order.status = status
       await orderUserModel.insertMany(order)

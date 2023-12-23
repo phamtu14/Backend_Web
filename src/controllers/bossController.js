@@ -60,14 +60,9 @@ const getAllPlaces = async (req, res, next) => {
 
 const statistical = async(req, res, next) => {
   try {
-    let option = req.body
-    if(!option) {
-      res.status(StatusCodes.NOT_FOUND).json("something is missing")
-    } else {
-      const result = await bossService.statistical(option)
+      const result = await bossService.statistical()
       res.status(StatusCodes.OK).json(result)
       next()
-    }
   } catch (error) {
     next(error)
   }

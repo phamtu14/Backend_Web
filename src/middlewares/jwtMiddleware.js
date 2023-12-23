@@ -7,7 +7,6 @@ import ApiError from '../utils/ApiError.js';
 const verifyToken = (req, res, next) => {
     const token = req.headers.accesstoken
     if(token) {
-      // const accessToken = token.split(" ")[1]
       jwt.verify(token, env.JWT_ACCESS_KEY, (err, decodedToken) => {
         if(err) {
           throw new ApiError(StatusCodes.FORBIDDEN, 'Token is not invalid')

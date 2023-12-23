@@ -6,7 +6,7 @@ import checkId from '../../middlewares/checkId.js'
 
 const Router = express.Router()
 
-// Router.use( jwtMiddleware.verifyToken )
+Router.use( jwtMiddleware.verifyToken )
 //, roleMiddleware('tran_employee')
 //, roleMiddleware('tran_employee'
 

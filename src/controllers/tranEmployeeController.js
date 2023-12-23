@@ -99,7 +99,7 @@ const recGatherPlace = async (req, res, next) => {
 // thống kê hàng gửi, nhận, chuyển
 const statistical = async (req, res, next) => {
   try {
-    const id = req.headers.placeid
+    const id = req.headers.placeId
     const result = await tranEmployeeService.statistical(id)
     res.status(StatusCodes.OK).json({
       success: result.success,
@@ -132,7 +132,6 @@ const toUser = async (req, res, next) => {
   try {
     const placeId = req.headers.placeid
     const orderId = req.body.orderId
-    console.log(orderId)
     if(!orderId) {
       throw new ApiError(StatusCodes.NOT_FOUND, "Order not found")
     } else {

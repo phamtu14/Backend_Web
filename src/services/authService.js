@@ -3,6 +3,7 @@ import { employeeModel } from '../models/employeeModel.js'
 import ApiError from '../utils/ApiError.js'
 import {StatusCodes} from 'http-status-codes'
 import bcrypt from 'bcrypt'
+import sendEmail from '../utils/sendEmail.js'
 
 
 
@@ -35,6 +36,7 @@ const createUser = async (reqBody) => {
       phoneNumber,
       role
     })
+    await sendEmail(createdUser.email)
     return createdUser
   } catch (error) {
     throw error
