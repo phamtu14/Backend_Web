@@ -5,7 +5,7 @@ import { roleMiddleware } from '../../middlewares/roleMiddleware.js'
 
 const Router = express.Router()
 
-Router.use( jwtMiddleware.verifyToken )
+// Router.use( jwtMiddleware.verifyToken )
 
 // lấy ra tất cả quản lý
 Router.get('/manage', roleMiddleware('boss'), bossController.getAllEmployees)
@@ -17,7 +17,7 @@ Router.delete('/manage/:id', roleMiddleware('boss'), bossController.deleteEmploy
 // Router.post('/place', roleMiddleware('boss'), bossController.createPlace)
 
 // lấy ra tất cả điểm giao dịch hoặc tập kết
-Router.get('/place', roleMiddleware('boss'), bossController.getAllPlaces)
+Router.get('/place', bossController.getAllPlaces)
 
 // thống kê
 Router.get('/statistical', bossController.statistical)

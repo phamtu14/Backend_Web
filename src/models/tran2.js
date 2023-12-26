@@ -8,7 +8,7 @@ const orderSchema = new mongoose.Schema({
   dateReceive: {type: Date, required: false},
   senderEmail: {type: String, required: true },
   receiverEmail: {type: String, required: true },
-  tranPlaceId: {type: mongoose.Types.ObjectId, required: true},
+  tranplaceId: {type: mongoose.Types.ObjectId, required: true},
 })
 
 export const tran2Model = mongoose.model('Tran 2 order', orderSchema);

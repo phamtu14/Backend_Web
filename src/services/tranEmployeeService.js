@@ -12,7 +12,7 @@ import mongoose from 'mongoose'
 //tạo đơn hàng cho người gửi và trả lại thông tin đơn hàng
 const createOrder = async (reqBody) => {
   try {
-  let { name, status, dateSend, senderEmail, receiverEmail, tranPlaceId} = reqBody
+  let { name, status, dateSend, senderEmail, receiverEmail, tranplaceId} = reqBody
   status = 'toGather'
   dateSend = new Date()
   const isSender = await userModel.findOne({ email: senderEmail })
@@ -20,27 +20,27 @@ const createOrder = async (reqBody) => {
 
   if (!isSender || !isReceiver) {
     throw new ApiError(StatusCodes.NOT_FOUND, "Invalid user")
-   } else if (tranPlaceId === '6554d12d2c07dd4087e973d1') {
+   } else if (tranplaceId === '6554d12d2c07dd4087e973d1') {
     const createdOrder = await tran1Model.create( {
           name, 
           status: status,
           dateSend: dateSend,
           senderEmail: senderEmail,
           receiverEmail: receiverEmail,
-          tranPlaceId
+          tranplaceId
         })
     let newStatus = "send"
     createdOrder.status = newStatus
     await orderUserModel.insertMany(createdOrder)
     return createdOrder
-   } else if(tranPlaceId === '656d40bc0737c805b3df4282') {
+   } else if(tranplaceId === '656d40bc0737c805b3df4282') {
     const createdOrder = await tran2Model.create( {
       name, 
       status: status,
       dateSend: dateSend,
       senderEmail: senderEmail,
       receiverEmail: receiverEmail,
-      tranPlaceId
+      tranplaceId
     })
     let newStatus = "send"
     createdOrder.status = newStatus
@@ -116,7 +116,6 @@ const toGatherPlace = async (id, orders) => {
 //lay tat ca don hang tu diem tap ket ve
 const allOrdersRecGather = async (id) => {
   try {
-    // let objectId = new mongoose.Types.ObjectId(id)
     if(id === '6554d12d2c07dd4087e973d1') {
       const allOrders = await tran1Model.find({
         status: 'pending'

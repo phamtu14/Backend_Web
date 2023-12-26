@@ -6,8 +6,8 @@ import { tranEmployeeService } from '../services/tranEmployeeService.js'
 //nhận đơn hàng của người gửi và trả lại thông tin đơn hàng
 const createOrder = async (req, res, next) => {
   try {
-    const { name, senderEmail, receiverEmail, tranPlaceId} = req.body
-    if( !name || !senderEmail || !receiverEmail || !tranPlaceId) {
+    const { name, senderEmail, receiverEmail, tranplaceId} = req.body
+    if( !name || !senderEmail || !receiverEmail || !tranplaceId) {
       throw new ApiError(StatusCodes.NO_CONTENT, 'Invalid input')
     } else {
       const createdOrder = await tranEmployeeService.createOrder(req.body)
@@ -25,7 +25,7 @@ const createOrder = async (req, res, next) => {
 //     if (!req.params.id) {
 //       throw new ApiError(StatusCodes.NOT_FOUND, 'Invalid id')
 //     } else {
-//       const placeId = req.headers.placeid
+//       const placeId = req.headers.placeId
 //       const id = req.params.id
 //       const status = req.body.status
 //       if(!id || !status) {
@@ -44,7 +44,7 @@ const createOrder = async (req, res, next) => {
 // lấy tất cả đơn hàng sẽ gửi tới điểm tập kết
 const allOrdersToGather = async (req, res, next) => {
   try {
-    const placeId = req.headers.placeid
+    const placeId = req.headers.placeId
     const allOrders = await tranEmployeeService.allOrdersToGather(placeId)
     res.status(StatusCodes.OK).json(allOrders)
     next()
@@ -56,7 +56,7 @@ const allOrdersToGather = async (req, res, next) => {
 // gửi hàng cho bên tập kết 
 const toGatherPlace =  async (req, res, next) => {
   try {
-    const id = req.headers.placeid
+    const id = req.headers.placeId
     const allOrders = req.body
     if(!id) {
       throw new Error('Invalid id')
@@ -75,10 +75,10 @@ const toGatherPlace =  async (req, res, next) => {
 // lay tat ca don hang tu diem tap ket gui ve
 const allOrdersRecGather = async (req, res, next) => {
   try {
-    const id = req.headers.placeid
-    const allOrders = await tranEmployeeService.allOrdersRecGather(id)
+    const placeId = req.headers.placeId
+    const allOrders = await tranEmployeeService.allOrdersRecGather(placeId)
     res.status(StatusCodes.OK).json(allOrders)
-    next() 
+    next()
   } catch (error) {
     next( error )
   }
@@ -87,7 +87,7 @@ const allOrdersRecGather = async (req, res, next) => {
 // nhận hàng từ điểm tập kết gần nhất
 const recGatherPlace = async (req, res, next) => {
   try {
-      const id = req.headers.placeid
+      const id = req.headers.placeId
       const result = await tranEmployeeService.recGatherPlace(id)
       res.status(StatusCodes.OK).json(result)
       next()
@@ -99,6 +99,7 @@ const recGatherPlace = async (req, res, next) => {
 // thống kê hàng gửi, nhận, chuyển
 const statistical = async (req, res, next) => {
   try {
+    
     const id = req.headers.placeId
     const result = await tranEmployeeService.statistical(id)
     res.status(StatusCodes.OK).json({
@@ -114,7 +115,7 @@ const statistical = async (req, res, next) => {
 // lấy tất cả đơn hàng để gửi lại cho người nhận
 const allToUser = async (req, res, next) => {
   try {
-    const id = req.headers.placeid
+    const id = req.headers.placeId
     if(!id) {
       throw new ApiError(StatusCodes.NOT_FOUND, "No place id")
     } else {
@@ -130,7 +131,7 @@ const allToUser = async (req, res, next) => {
 // gửi hàng tới người nhận
 const toUser = async (req, res, next) => {
   try {
-    const placeId = req.headers.placeid
+    const placeId = req.headers.placeId
     const orderId = req.body.orderId
     if(!orderId) {
       throw new ApiError(StatusCodes.NOT_FOUND, "Order not found")

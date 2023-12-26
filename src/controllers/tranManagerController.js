@@ -31,7 +31,7 @@ const getALlEmployees = async (req, res, next) => {
 // thống kê hàng gửi, hàng nhận
 const statistical = async (req, res, next) => {
   try {
-    const id = req.headers.placeid
+    const id = req.headers.placeId
     if(!id) {
       return 'Missing place id'
     } else {
