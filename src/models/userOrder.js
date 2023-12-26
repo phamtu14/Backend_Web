@@ -8,7 +8,7 @@ const orderSchema = new mongoose.Schema({
   dateReceive: {type: Date, required: false},
   senderEmail: {type: String, required: false},
   receiverEmail: {type: String, required: false },
-  tranplaceId: {type: mongoose.Types.ObjectId, required: true},
+  placeId: {type: mongoose.Types.ObjectId, required: true},
 })
 
 export const orderUserModel = mongoose.model('User order', orderSchema);

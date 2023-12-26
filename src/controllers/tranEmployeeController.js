@@ -6,8 +6,8 @@ import { tranEmployeeService } from '../services/tranEmployeeService.js'
 //nhận đơn hàng của người gửi và trả lại thông tin đơn hàng
 const createOrder = async (req, res, next) => {
   try {
-    const { name, senderEmail, receiverEmail, tranplaceId} = req.body
-    if( !name || !senderEmail || !receiverEmail || !tranplaceId) {
+    const { name, senderEmail, receiverEmail, placeId} = req.body
+    if( !name || !senderEmail || !receiverEmail || !placeId) {
       throw new ApiError(StatusCodes.NO_CONTENT, 'Invalid input')
     } else {
       const createdOrder = await tranEmployeeService.createOrder(req.body)
