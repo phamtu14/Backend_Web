@@ -82,7 +82,7 @@ const toEndGather = async (id, orders) => {
       orders.map(order => {
         let status = 'toNextGather'
         let newOrder = {...order, status}
-        ga2Model.create(newOrder)
+        ga2Model.insertMany(newOrder)
       })
   
       for (let index = 0; index < orders.length; index++) {
@@ -96,7 +96,7 @@ const toEndGather = async (id, orders) => {
       orders.map(order => {
         let status = 'toNextGather'
         let newOrder = {...order, status}
-        ga1Model.create(newOrder)
+        ga1Model.insertMany(newOrder)
       })
   
       for (let index = 0; index < orders.length; index++) {
@@ -185,7 +185,7 @@ const toTran = async (id, orders) => {
       orders.map(order => {
         let status = 'pending'
         let newOrder = {...order, status}
-        tran1Model.create(newOrder)
+        tran1Model.insertMany(newOrder)
       })
   
       for (let index = 0; index < orders.length; index++) {
@@ -199,7 +199,7 @@ const toTran = async (id, orders) => {
       orders.map(order => {
         let status = 'pending'
         let newOrder = {...order, status}
-        tran2Model.create(newOrder)
+        tran2Model.insertMany(newOrder)
       })
   
       for (let index = 0; index < orders.length; index++) {

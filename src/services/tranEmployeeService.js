@@ -82,7 +82,7 @@ const toGatherPlace = async (id, orders) => {
       orders.map(order => {
         let status = 'pending'
         let newOrder = {...order, status}
-        ga1Model.create(newOrder)
+        ga1Model.insertMany(newOrder)
       })
   
       for (let index = 0; index < orders.length; index++) {
@@ -96,7 +96,7 @@ const toGatherPlace = async (id, orders) => {
       orders.map(order => {
         let status = 'pending'
         let newOrder = {...order, status}
-        ga2Model.create(newOrder)
+        ga2Model.insertMany(newOrder)
       })
   
       for (let index = 0; index < orders.length; index++) {
