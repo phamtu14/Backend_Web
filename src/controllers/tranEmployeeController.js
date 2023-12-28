@@ -137,6 +137,7 @@ const toUser = async (req, res, next) => {
       throw new ApiError(StatusCodes.NOT_FOUND, "Order not found")
     } else {
       const result = await tranEmployeeService.toUser(placeId, orderId)
+      console.log(result)
       res.status(StatusCodes.OK).json(result)
       next()
     }

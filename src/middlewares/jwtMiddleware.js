@@ -14,6 +14,7 @@ const verifyToken = (req, res, next) => {
           req.headers.role = decodedToken.role
           req.headers.id = decodedToken.id
           req.headers.placeId = decodedToken.placeId
+          req.headers.email = decodedToken.email
           next()
         }
       })

@@ -96,7 +96,7 @@ const toGatherPlace = async (id, orders) => {
       orders.map(order => {
         let status = 'pending'
         let newOrder = {...order, status}
-        ga2Model.insertMany(newOrder)
+        ga2Model.insertMany (newOrder)
       })
   
       for (let index = 0; index < orders.length; index++) {
@@ -274,19 +274,28 @@ const allToUser = async (id) => {
 const toUser = async(placeId, orderId) => {
   try {
     if(placeId === '6554d12d2c07dd4087e973d1') {
-      const objectId = new mongoose.Types.ObjectId(orderId)
-      let order = await tran1Model.findById(objectId)
+
       let status = 'toUser'
-      order.status = status
+
+      let order = await tran1Model.findOneAndUpdate(
+        { _id: orderId },
+        { $set: { status: status } },
+        { new: true } 
+      )
+
       await orderUserModel.insertMany(order)
-      return 'Gửi thành công'
+      return order
     } else if(placeId === '656d40bc0737c805b3df4282') {
-      const objectId = new mongoose.Types.ObjectId(orderId)
-      let order = await tran2Model.findById(objectId)
-      let status = 'toUser'
-      order.status = status
+     let status = 'toUser'
+
+      let order = await tran2Model.findOneAndUpdate(
+        { _id: orderId },
+        { $set: { status: status } },
+        { new: true } 
+      )
+      
       await orderUserModel.insertMany(order)
-      return 'Gửi thành công'
+      return order
     }
   } catch (error) {
     throw error
