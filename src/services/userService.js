@@ -46,24 +46,35 @@ const allOrders = async (receiverEmail) => {
 
 // xác nhận đơn hàng
 const acceptOrder = async(orderId, placeId) => {
+  const id = new mongoose.Types.ObjectId(orderId)
   try {
-    let result = await orderUserModel.findByIdAndUpdate(
-      {_id: orderId},
-      {$set: {status: 'received'}},
-      {new: true}
-    )
     if(placeId === '6554d12d2c07dd4087e973d1') {
-      await tran1Model.findByIdAndUpdate(
-        {_id: orderId},
-        {$set: {status: 'success'}},
-        {new: true})
+      let order = await orderUserModel.findOneAndUpdate(
+        { _id: id},
+            { $set: { status: 'received' } },
+            { new: true } 
+      )
+
+      await tran1Model.findOneAndUpdate(
+        { _id: id},
+        { $set: { status: 'success' } },
+        { new: true } 
+      )
+      return order
     } else if(placeId === '656d40bc0737c805b3df4282') {
-      await tran2Model.findByIdAndUpdate(
-        {_id: orderId},
-        {$set: {status: 'success'}},
-        {new: true})
+      let order = await orderUserModel.findOneAndUpdate(
+        { _id: id},
+            { $set: { status: 'received' } },
+            { new: true } 
+      )
+
+      await tran2Model.findOneAndUpdate(
+        { _id: id},
+        { $set: { status: success } },
+        { new: true } 
+      )
+      return order
     }
-    return result
   } catch (error) {
     throw error
   }

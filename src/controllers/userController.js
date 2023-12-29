@@ -46,8 +46,11 @@ const acceptOrder = async (req, res, next) => {
   try {
     const orderId = req.body.orderId
     const placeId = req.body.placeId
+
+
     const result = await userService.acceptOrder(orderId, placeId)
     res.status(StatusCodes.OK).json(result)
+    console.log(result)
     next()
   } catch (error) {
     next( error )

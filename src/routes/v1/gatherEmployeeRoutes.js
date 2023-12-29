@@ -6,7 +6,7 @@ import checkId from '../../middlewares/checkId.js'
 
 const Router = express.Router() 
 
-// Router.use( jwtMiddleware.verifyToken )
+ Router.use( jwtMiddleware.verifyToken )
 
 // lấy tất cả đơn hàng từ từ điểm giao dịch gửi tới
 Router.get('/orderFromTran', gatherEmployeeController.allOrderFromTran)

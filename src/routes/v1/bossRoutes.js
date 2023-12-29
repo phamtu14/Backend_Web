@@ -5,7 +5,7 @@ import { roleMiddleware } from '../../middlewares/roleMiddleware.js'
 
 const Router = express.Router()
 
-// Router.use( jwtMiddleware.verifyToken )
+Router.use( jwtMiddleware.verifyToken )
 
 // lấy ra tất cả quản lý
 Router.get('/manage', roleMiddleware('boss'), bossController.getAllEmployees)
